@@ -1,3 +1,5 @@
+import 'package:coffeeapp/pages/signin_page.dart';
+import 'package:coffeeapp/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/welcome_page.dart';
@@ -18,6 +20,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const WelcomePage(),
+      routes: {
+        "/signin": (context) => const SignInPage(),
+        "/signup": (context) => const SignUpPage(),
+      },
     );
   }
 }

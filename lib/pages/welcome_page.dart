@@ -47,6 +47,10 @@ class WelcomePage extends StatelessWidget {
                   color: const Color(0xff55433C),
                   borderRadius: BorderRadius.circular(30)
                 ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/signin");
+                  },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: const Row(
@@ -68,7 +72,8 @@ class WelcomePage extends StatelessWidget {
                             color:  Colors.white,
                             ),
                         )
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               )

@@ -116,7 +116,10 @@ class SignInPage extends StatelessWidget {
           backgroundColor: const Color(0xff55433C),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
-        onPressed: () {},
+        // Permettre l'accès à la page home
+        onPressed: () {
+          Navigator.pushNamed(context, "/home");
+        },
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

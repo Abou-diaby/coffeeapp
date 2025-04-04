@@ -12,7 +12,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // Create By DIABY CEO of MU
+  // Create By DIABY CEO of MU and Teddy
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -1,7 +1,18 @@
+import 'package:coffeeapp/components/filter_list.dart';
+import 'package:coffeeapp/components/profil_icon.dart';
+import 'package:coffeeapp/components/search_field.dart';
 import 'package:flutter/material.dart';
+// import '../components/search_field.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePage();
+}
+
+class _HomePage extends State<HomePage> {
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -9,75 +20,81 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          ClipRect(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              heightFactor: 0.4,
-              child: Image.asset("assets/images/coffee_image.png"),
-            ),
-          ),
-          SingleChildScrollView(
-            // padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Row(
+          Stack(
+            children: [
+              Positioned(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  heightFactor: 0.37,
+                  child: Image.asset("assets/images/coffee_image.png"),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 120),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircleAvatar(
-                        child: ClipRect(
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                "assets/images/user_image.png",
-                              ),
-                            ),
-                          ),
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: ProfilIcon(),
                       ),
-                      Container(
-                        height: 44,
-                        width: 44,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            child: Image.asset("assets/icons/menu.png"),
-                          ),
-                        ),
-                      ),
+                      _menu(context),
                     ],
                   ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Hi,",
-                        style: TextStyle(
-                          fontFamily: "Gilroy",
-                          fontSize: 40,
-                          fontWeight: FontWeight.w200,
-                        ),
-                      ),
-                      Text(
-                        "William",
-                        style: TextStyle(
-                          fontFamily: "Gilroy",
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: _userWelcome(context, "Teddy"),
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: SearchField(controller: _controller),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ],
+          ),
+          FilterList(
+            filters: [
+              {"name": "Coffee", "icon": "coffee_icon.png"},
+              {"name": "Beer", "icon": "beer_icon.png"},
+              {"name": "Wine Bar", "icon": "wine_icon.png"},
+              {"name": "Events", "icon": "events_icon.png"},
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _menu(BuildContext context) {
+    return IconButton(
+      padding: EdgeInsets.only(right: 20),
+      iconSize: 44,
+      onPressed: () {},
+      icon: Image.asset("assets/icons/menu.png", height: 44, width: 44),
+    );
+  }
+
+  Widget _userWelcome(BuildContext context, String userName) {
+    return RichText(
+      textAlign: TextAlign.left,
+      text: TextSpan(
+        text: "Hi, ",
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.w200,
+          color: Colors.black,
+          fontFamily: "Gilroy",
+        ),
+        children: <TextSpan>[
+          TextSpan(
+            text: userName,
+            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
           ),
         ],
       ),

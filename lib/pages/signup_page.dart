@@ -46,7 +46,9 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 16),
               Center(
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/forgotpassword");
+                  },
                   child: const Text(
                     "Forgot password?",
                     style: TextStyle(

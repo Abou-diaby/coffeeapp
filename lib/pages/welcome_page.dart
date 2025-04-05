@@ -8,33 +8,34 @@ class WelcomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            // Display Image.
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(
-                "assets/images/app_logo.png", 
-                scale: 4
+        child: SingleChildScrollView( 
+          child: Column(
+            children: [
+              // Display Image.
+              Align(
+                alignment: Alignment.center,
+                child: Image.asset(
+                  "assets/images/app_logo.png", 
+                  scale: 4,
                 ),
-            ),
-            const SizedBox(height: 43),
-            Image.asset("assets/images/coffee_image.png"),
-            const Text(
-              "Find your favorite",
-              style:TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w600
-              )
-             ),
-             const Text(
-              "Coffee Taste!",
-              style:TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold
-              )
-             ),
-             const SizedBox(height: 6),
+              ),
+              const SizedBox(height: 43),
+              Image.asset("assets/images/coffee_image.png"),
+              const Text(
+                "Find your favorite",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const Text(
+                "Coffee Taste!",
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 6),
               const Text(
                 "We’re coffee shop, beer and wine bar,\n& event space for performing arts",
                 textAlign: TextAlign.center,
@@ -45,23 +46,23 @@ class WelcomePage extends StatelessWidget {
                 width: 200,
                 decoration: BoxDecoration(
                   color: const Color(0xff55433C),
-                  borderRadius: BorderRadius.circular(30)
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, "/signin");
                   },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Spacer(flex: 2),
-                      Text(
-                        "Get Started",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Spacer(flex: 2),
+                        Text(
+                          "Get Started",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Spacer(),
@@ -69,15 +70,16 @@ class WelcomePage extends StatelessWidget {
                           backgroundColor: Color(0xffA97C37),
                           child: Icon(
                             Icons.arrow_forward,
-                            color:  Colors.white,
-                            ),
-                        )
+                            color: Colors.white,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
-              )
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

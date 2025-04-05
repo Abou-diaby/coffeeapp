@@ -1,4 +1,6 @@
+import 'package:coffeeapp/components/bottom_navigation_bar.dart';
 import 'package:coffeeapp/components/filter_list.dart';
+import 'package:coffeeapp/components/product_list.dart';
 import 'package:coffeeapp/components/profil_icon.dart';
 import 'package:coffeeapp/components/search_field.dart';
 import 'package:flutter/material.dart';
@@ -17,56 +19,70 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBarExample(),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Positioned(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  heightFactor: 0.37,
-                  child: Image.asset("assets/images/coffee_image.png"),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Positioned(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    heightFactor: 0.37,
+                    child: Image.asset("assets/images/coffee_image.png"),
+                  ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 120),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: ProfilIcon(),
-                      ),
-                      _menu(context),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: _userWelcome(context, "Teddy"),
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: SearchField(controller: _controller),
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ],
-          ),
-          FilterList(
-            filters: [
-              {"name": "Coffee", "icon": "coffee_icon.png"},
-              {"name": "Beer", "icon": "beer_icon.png"},
-              {"name": "Wine Bar", "icon": "wine_icon.png"},
-              {"name": "Events", "icon": "events_icon.png"},
-            ],
-          ),
-        ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 120),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: ProfilIcon(),
+                        ),
+                        _menu(context),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: _userWelcome(context, "Teddy"),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: SearchField(controller: _controller),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ],
+            ),
+            FilterList(
+              filters: [
+                {"name": "Coffee", "icon": "coffee_icon.png"},
+                {"name": "Beer", "icon": "beer_icon.png"},
+                {"name": "Wine Bar", "icon": "wine_icon.png"},
+                {"name": "Events", "icon": "events_icon.png"},
+              ],
+            ),
+            const SizedBox(height: 57),
+            Column(
+              children: [
+                ProductList(contentDirection: "column"),
+                ProductList(contentDirection: "row"),
+                ProductList(contentDirection: "row"),
+                ProductList(contentDirection: "row"),
+                ProductList(contentDirection: "row"),
+                ProductList(contentDirection: "row"),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

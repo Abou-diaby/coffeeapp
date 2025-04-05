@@ -42,7 +42,6 @@ class _ProductList extends State<ProductList> {
         height: 150,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.symmetric(horizontal: 10),
           itemCount: widget.products.length,
           itemBuilder: (context, idx) {
             return Padding(
@@ -56,7 +55,7 @@ class _ProductList extends State<ProductList> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -81,7 +80,7 @@ class _ProductList extends State<ProductList> {
           height: 100,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            
             itemCount: widget.products.length,
             itemBuilder: (context, idx) {
               return Padding(

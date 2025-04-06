@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final _formState = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -13,33 +20,36 @@ class SignInPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Image.asset("assets/images/coffee_image.png"),
-              ),
+              Center(child: Image.asset("assets/images/coffee_image.png")),
               const SizedBox(height: 20),
               const Center(
                 child: Text(
                   "Sign In",
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 8),
               const Center(
-                child: Text(
-                  "We’ve already met!",
-                   textAlign: TextAlign.center,
-                ),
+                child: Text("We’ve already met!", textAlign: TextAlign.center),
               ),
               const SizedBox(height: 30),
-              _buildTextField(
-                label: "Phone Number",
-                icon: Icons.phone,
+              Form(
+                key: _formState,
+                child: Column(
+                  children: [
+                    _buildTextField(label: "Phone Number", icon: Icons.phone),
+                    const SizedBox(height: 16),
+                    _PasswordTextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your password";
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 16),
-              const _PasswordTextField(),
               const SizedBox(height: 16),
               Center(
                 child: TextButton(
@@ -57,7 +67,13 @@ class SignInPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildSignInButton(context),
+              _buildSignInButton(context, () {
+                if (_formState.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processing Data')),
+                  );
+                }
+              }),
               const SizedBox(height: 20),
               Center(
                 child: TextButton(
@@ -95,47 +111,49 @@ class SignInPage extends StatelessWidget {
   Widget _buildTextField({
     required String label,
     required IconData icon,
+    required String? Function(String?) validator,
   }) {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Image.asset(
-        "assets/icons/Phone.png",
-        width: 30, 
-        height: 30, 
-      ),
+          "assets/icons/Phone.png",
+          width: 30,
+          height: 30,
+        ),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
 
-  Widget _buildSignInButton(BuildContext context) {
+  Widget _buildSignInButton(BuildContext context, VoidCallback onPressed) {
     return SizedBox(
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xff55433C),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
         ),
-        // Permettre l'accès à la page home
-        onPressed: () {
-          Navigator.pushNamed(context, "/home");
-        },
+        onPressed: onPressed,
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "Sign In",
               style: TextStyle(
-                fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(width: 10),
             CircleAvatar(
               backgroundColor: Color(0xffA97C37),
               child: Icon(Icons.arrow_forward, color: Colors.white),
-            )
+            ),
           ],
         ),
       ),
@@ -143,25 +161,28 @@ class SignInPage extends StatelessWidget {
   }
 }
 
-class _PasswordTextField extends StatefulWidget {
-  const _PasswordTextField();
+class _PasswordTextFormField extends StatefulWidget {
+  final String? Function(String?)? validator;
+
+  const _PasswordTextFormField({this.validator});
 
   @override
-  State<_PasswordTextField> createState() => _PasswordTextFieldState();
+  State<_PasswordTextFormField> createState() => _PasswordTextFormFieldState();
 }
 
-class _PasswordTextFieldState extends State<_PasswordTextField> {
+class _PasswordTextFormFieldState extends State<_PasswordTextFormField> {
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       obscureText: _obscureText,
+      validator: widget.validator,
       decoration: InputDecoration(
         labelText: "Password",
         prefixIcon: Image.asset(
           "assets/icons/Password.png",
-          width: 30, 
+          width: 30,
           height: 30,
         ),
         suffixIcon: IconButton(

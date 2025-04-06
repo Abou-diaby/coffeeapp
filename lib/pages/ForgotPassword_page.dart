@@ -14,17 +14,12 @@ class ForgotPasswordPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 40),
-              Center(
-                child: Image.asset("assets/images/coffee_image.png"),
-              ),
+              Center(child: Image.asset("assets/images/coffee_image.png")),
               const SizedBox(height: 20),
               const Center(
                 child: Text(
                   "Forgot Password",
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 8),
@@ -64,10 +59,7 @@ class ForgotPasswordPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField({
-    required String label,
-    required IconData icon,
-  }) {
+  Widget _buildTextField({required String label, required IconData icon}) {
     return TextField(
       decoration: InputDecoration(
         labelText: label,
@@ -84,7 +76,9 @@ class ForgotPasswordPage extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xff55433C),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
         ),
         onPressed: () {
           // Logique pour envoyer une demande de réinitialisation
@@ -93,26 +87,23 @@ class ForgotPasswordPage extends StatelessWidget {
           );
         },
         child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Reset Password",
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Reset Password",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          SizedBox(width: 10,),
-          CircleAvatar(
-            backgroundColor: Color(0xffA97C37),
-            child: Icon(
-              Icons.arrow_forward,
-              color: Colors.white,
+            SizedBox(width: 10),
+            CircleAvatar(
+              backgroundColor: Color(0xffA97C37),
+              child: Icon(Icons.arrow_forward, color: Colors.white),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }

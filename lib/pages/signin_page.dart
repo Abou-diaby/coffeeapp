@@ -37,7 +37,12 @@ class _SignInPageState extends State<SignInPage> {
                 key: _formState,
                 child: Column(
                   children: [
-                    _buildTextField(label: "Phone Number", icon: Icons.phone),
+                    _buildTextField(label: "Phone Number", icon: Icons.phone, validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your phone number";
+                      }
+                      return null;
+                    }),
                     const SizedBox(height: 16),
                     _PasswordTextFormField(
                       validator: (value) {
@@ -114,6 +119,7 @@ class _SignInPageState extends State<SignInPage> {
     required String? Function(String?) validator,
   }) {
     return TextFormField(
+      validator: validator,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Image.asset(

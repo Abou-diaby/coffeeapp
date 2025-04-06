@@ -1,4 +1,7 @@
+import 'package:coffeeapp/components/password_text_form_field.dart';
+import 'package:coffeeapp/components/text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -37,14 +40,18 @@ class _SignInPageState extends State<SignInPage> {
                 key: _formState,
                 child: Column(
                   children: [
-                    _buildTextField(label: "Phone Number", icon: Icons.phone, validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter your phone number";
-                      }
-                      return null;
-                    }),
+                    CustomTextFormField(
+                      label: "Phone Number",
+                      icon: Icons.phone,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your phone number";
+                        }
+                        return null;
+                      },
+                    ),
                     const SizedBox(height: 16),
-                    _PasswordTextFormField(
+                    PasswordTextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter your password";
@@ -74,9 +81,7 @@ class _SignInPageState extends State<SignInPage> {
               const SizedBox(height: 20),
               _buildSignInButton(context, () {
                 if (_formState.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
-                  );
+                  Navigator.pushNamed(context, "/home");
                 }
               }),
               const SizedBox(height: 20),
@@ -112,25 +117,7 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
-
-  Widget _buildTextField({
-    required String label,
-    required IconData icon,
-    required String? Function(String?) validator,
-  }) {
-    return TextFormField(
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Image.asset(
-          "assets/icons/Phone.png",
-          width: 30,
-          height: 30,
-        ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-    );
-  }
+ 
 
   Widget _buildSignInButton(BuildContext context, VoidCallback onPressed) {
     return SizedBox(
@@ -162,47 +149,6 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _PasswordTextFormField extends StatefulWidget {
-  final String? Function(String?)? validator;
-
-  const _PasswordTextFormField({this.validator});
-
-  @override
-  State<_PasswordTextFormField> createState() => _PasswordTextFormFieldState();
-}
-
-class _PasswordTextFormFieldState extends State<_PasswordTextFormField> {
-  bool _obscureText = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: _obscureText,
-      validator: widget.validator,
-      decoration: InputDecoration(
-        labelText: "Password",
-        prefixIcon: Image.asset(
-          "assets/icons/Password.png",
-          width: 30,
-          height: 30,
-        ),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _obscureText ? Icons.visibility_off : Icons.visibility,
-            color: Colors.black54,
-          ),
-          onPressed: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-        ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

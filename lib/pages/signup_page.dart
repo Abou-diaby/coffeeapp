@@ -2,7 +2,11 @@
 
 import 'package:coffeeapp/components/password_text_form_field.dart';
 import 'package:coffeeapp/components/text_form_field.dart';
+import 'package:coffeeapp/create_user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -14,6 +18,9 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  Future<User>? _futureUser;
 
   @override
   Widget build(BuildContext context) {
@@ -41,48 +48,67 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               const SizedBox(height: 30),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    CustomTextFormField(
-                      label: "Phone Number",
-                      icon: Icons.phone,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your phone number";
-                        }
-                        return null;
-                      },
+              (_futureUser == null)
+                  ? Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        CustomTextFormField(
+                          controller: usernameController,
+                          label: "Username",
+                          icon: Icons.person,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your username";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        CustomTextFormField(
+                          controller: phoneNumberController,
+                          inputType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          label: "Phone Number",
+                          icon: Icons.phone,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your phone number";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        PasswordTextFormField(
+                          controller: passwordController,
+                          label: "Password",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your password";
+                            }
+                            if (value.length < 8) {
+                              return "Minimum character length is 8";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        PasswordTextFormField(
+                          label: "Re-Password",
+                          validator: (value) {
+                            if (passwordController.text.isNotEmpty &&
+                                value != passwordController.text) {
+                              return "Passwords don't match";
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    PasswordTextFormField(
-                      controller: passwordController,
-                      label: "Password",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your password";
-                        }
-                        if (value.length < 8) {
-                          return "Minimum character length is 8";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    PasswordTextFormField(
-                      label: "Re-Password",
-                      validator: (value) {
-                        if (passwordController.text.isNotEmpty &&
-                            value != passwordController.text) {
-                          return "Passwords don't match";
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
-                ),
-              ),
+                  )
+                  : buildFutureBuilder(),
               const SizedBox(height: 16),
               Center(
                 child: TextButton(
@@ -102,9 +128,39 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 20),
               _buildSignUpButton(context, () {
                 if (_formKey.currentState!.validate()) {
-                  Navigator.pushNamed(context, "/home");
+                  // Navigator.pushNamed(context, "/home");
+                  createUser(
+                    usernameController.text,
+                    phoneNumberController.text,
+                    passwordController.text,
+                  );
                 }
               }),
+              // (_futureUser == null)
+              //     ? Column(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: <Widget>[
+              //         TextField(
+              //           controller: usernameController,
+              //           decoration: const InputDecoration(
+              //             hintText: 'Enter Title',
+              //           ),
+              //         ),
+              //         ElevatedButton(
+              //           onPressed: () {
+              //             setState(() {
+              //               _futureUser = createUser(
+              //                 usernameController.text,
+              //                 phoneNumberController.text,
+              //                 passwordController.text,
+              //               );
+              //             });
+              //           },
+              //           child: const Text('Create Data'),
+              //         ),
+              //       ],
+              //     )
+              //     : buildFutureBuilder(),
               const SizedBox(height: 20),
               Center(
                 child: TextButton(
@@ -170,6 +226,21 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         ),
       ),
+    );
+  }
+
+  FutureBuilder<User> buildFutureBuilder() {
+    return FutureBuilder<User>(
+      future: _futureUser,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(snapshot.data!.username);
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+
+        return const CircularProgressIndicator();
+      },
     );
   }
 }
